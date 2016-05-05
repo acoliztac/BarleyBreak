@@ -10,8 +10,6 @@ public class MainFrame extends FrameCreator {
     public MainFrame(String s){
         super(s);
 
-
-
         b1 = new JButton("Приступить к решению");
         b1.setPreferredSize(new Dimension(180, 30));
 
