@@ -19,7 +19,6 @@ public abstract class FrameCreator extends JFrame implements Runnable{
     boolean gameOver = false;
     boolean stopThread = false;
 
-
     public FrameCreator(String s) {
         super(s);
         setLayout(new FlowLayout());
@@ -62,7 +61,6 @@ public abstract class FrameCreator extends JFrame implements Runnable{
                     t1.setText(null);
                     t2.setText(null);
                 }
-
             }
 
             for (JButton jb : buttons){
@@ -100,7 +98,6 @@ public abstract class FrameCreator extends JFrame implements Runnable{
                                         l++;
                                     }
                                 }
-
                                 break;
                             }
                         } catch (Exception e1) {

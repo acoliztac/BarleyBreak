@@ -37,9 +37,7 @@ public class FieldFrame extends FrameCreator {
                 k++;
             }
         }
-
         solutionable();
-
     }
 
     private static void fillingMatrix(String[][] matrix, Integer k, Integer a, Integer b, boolean b1) {
