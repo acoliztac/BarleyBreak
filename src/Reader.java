@@ -164,7 +164,7 @@ public class Reader extends JFrame implements Runnable{
                 try {
                     a = Integer.parseInt(t1.getText());
                     b = Integer.parseInt(t2.getText());
-                    if (b < 2 || b > 10 || a < 2 || a > 10)
+                    if (b < 3 || b > 10 || a < 3 || a > 10)
                         throw new NumberFormatException();
                     height = a;
                     width = b;
