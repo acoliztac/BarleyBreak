@@ -9,7 +9,7 @@ public class MainFrame extends FrameCreator {
 
     public MainFrame(String s){
         super(s);
-        setSize(200, 190);
+
 
 
         b1 = new JButton("Приступить к решению");

@@ -10,14 +10,11 @@ public class FieldFrame extends FrameCreator {
 
     public FieldFrame(String s, int a, int b){
         super(s);
-//        int[] arrayR    = {0, 1, 2, 3,  4,  5,  6,  7,  8,  9,  10};
-        int[] widthArray  = {0, 0, 0, 66, 57, 55, 55, 55, 55, 55, 54};
-        int[] heightArray = {0, 0, 0, 71, 67, 64, 62, 61, 60, 59, 59};
 
 
 
         setVisible(true);
-        setSize(widthArray[width] * width, heightArray[height] * height);
+
 
         matrix = new String[a][b];
         result = new String[a][b];
