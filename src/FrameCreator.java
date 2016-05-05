@@ -4,10 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Reader extends JFrame implements Runnable{
+public abstract class FrameCreator extends JFrame implements Runnable{
     int width, height;
     JButton b1;
-    JLabel l0, l1, l2, l3;
     JTextField t1, t2;
     eHandler handler = new eHandler();
 
@@ -17,130 +16,16 @@ public class Reader extends JFrame implements Runnable{
 
     int counter = 0;
 
-    private boolean gameOver = false;
+    boolean gameOver = false;
+    boolean stopThread = false;
 
-    private boolean stopThread = false;
-
-    public Reader (String s){
+    public FrameCreator(String s) {
         super(s);
         setLayout(new FlowLayout());
-
-        b1 = new JButton("Приступить к решению");
-        b1.setPreferredSize(new Dimension(180, 30));
-
-        l0 = new JLabel("Размеры поля");
-        l0.setPreferredSize(new Dimension(150, 30));
-        l1 = new JLabel("Высота :");
-        l1.setPreferredSize(new Dimension(70, 30));
-        l2 = new JLabel("Ширина :");
-        l2.setPreferredSize(new Dimension(70, 30));
-
-        t1 = new JTextField(5);
-        t2 = new JTextField(5);
-
-        add(l0);
-        add(l1);
-        add(t1);
-        add(l2);
-        add(t2);
-        add(b1);
-        b1.addActionListener(handler);
-    }
-
-    public Reader (String s, int a, int b){
-        super(s);
-        setLayout(new FlowLayout());
-
-        matrix = new String[a][b];
-        result = new String[a][b];
-
-        int d = 48;
-
-        fillingMatrix(matrix, 0, a, b, true);
-        fillingMatrix(result, 1, a, b, false);
-
-        l3 = new JLabel("Запасись терпением и едой (;");
-        for (int i = 0; i < a * b; i++){
-            buttons.add(new JButton());
-        }
-        for (JButton jb : buttons){
-            add(jb);
-            jb.setPreferredSize(new Dimension(d, d));
-            jb.addActionListener(handler);
-        }
-        add(l3);
-
-        int k = 0;
-        for (int i = 0; i < a; i++){
-            for (int j = 0; j < b; j++){
-                buttons.get(k).setText(String.valueOf(matrix[i][j]));
-                k++;
-            }
-        }
-
-        solutionable();
-
-    }
-//Проверка доступности решения (работает с полем 3х3)
-    private void solutionable() {
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for (JButton ds : buttons){
-            if (ds.getText().equals(" "))
-                continue;
-            list.add(Integer.valueOf(ds.getText()));
-        }
-
-        int mark = 0;
-        for (int i = 0; i < list.size(); i++){
-            for (int j = i + 1; j < list.size(); j++){
-                if (list.get(i) < list.get(j))
-                    mark++;
-            }
-        }
-//        findingEmpty : for (int i = 0; i < matrix.length; i++){
-//            String[] line = matrix[i];
-//            for (int j = 0; j < line.length; j++){
-//                if (matrix[i][j].equals(" ")) {
-//                    mark += i + 1;
-//                    break findingEmpty;
-//                }
-//            }
-//        }
-        System.out.println(mark);
-
-        if (mark % 2 != 0) {
-            JOptionPane.showMessageDialog(null, "Хрен соберёшь, дружище. Позже пофиксим. Сейчас перезапускай игру.",
-                    "Уп-с, плохо сгенерировалось поле", 2);
-        }
-    }
-
-    private static void fillingMatrix(String[][] matrix, Integer k, Integer a, Integer b, boolean b1) {
-        ArrayList<Integer> arrayList = new ArrayList<Integer>();
-        if (!b1) {
-            for (int i = 0; i < a * b; i++){
-                arrayList.add(i);
-            }
-
-        } else {
-            while (arrayList.size() < a * b){
-                int i = (int) (Math.random()*(a * b));
-                if (arrayList.contains(i))
-                    continue;
-                arrayList.add(i);
-            }
-        }
-
-        for (int i = 0; i < a; i++){
-            for (int j = 0; j < b; j++){
-                int buf = arrayList.get(k++);
-                if (buf == 0)
-                    matrix[i][j] = " ";
-                else matrix[i][j] = String.valueOf(buf);
-//                matrix[i][j] = String.valueOf(arrayList.get(k++));
-                if (k >= a * b)
-                    k = 0;
-            }
-        }
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+        setResizable(false);
     }
 
     @Override
@@ -149,6 +34,7 @@ public class Reader extends JFrame implements Runnable{
             while(!stopThread){
                 Thread.sleep(100);
             }
+            setVisible(false);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -159,8 +45,7 @@ public class Reader extends JFrame implements Runnable{
         @Override
         public void actionPerformed (ActionEvent e) {
             if (e.getSource() == b1){
-                int a = 0;
-                int b = 0;
+                int a, b;
                 try {
                     a = Integer.parseInt(t1.getText());
                     b = Integer.parseInt(t2.getText());
@@ -168,6 +53,7 @@ public class Reader extends JFrame implements Runnable{
                         throw new NumberFormatException();
                     height = a;
                     width = b;
+
                     stopThread = true;
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Беда. Говорят, что нужно вводить только целые числа! Да ещё и в диапазоне 3...10\n" +
@@ -175,7 +61,6 @@ public class Reader extends JFrame implements Runnable{
                     t1.setText(null);
                     t2.setText(null);
                 }
-
             }
 
             for (JButton jb : buttons){
@@ -213,7 +98,6 @@ public class Reader extends JFrame implements Runnable{
                                         l++;
                                     }
                                 }
-
                                 break;
                             }
                         } catch (Exception e1) {
@@ -246,7 +130,5 @@ public class Reader extends JFrame implements Runnable{
                 }
             }
         }
-
-
     }
 }
