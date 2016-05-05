@@ -17,9 +17,9 @@ public class Reader extends JFrame implements Runnable{
 
     int counter = 0;
 
-    boolean gameOver = false;
+    private boolean gameOver = false;
 
-    boolean stopThread = false;
+    private boolean stopThread = false;
 
     public Reader (String s){
         super(s);
