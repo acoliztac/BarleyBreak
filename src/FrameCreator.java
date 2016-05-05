@@ -16,8 +16,8 @@ public abstract class FrameCreator extends JFrame implements Runnable{
 
     int counter = 0;
 
-    private boolean gameOver = false;
-    private boolean stopThread = false;
+    boolean gameOver = false;
+    boolean stopThread = false;
 
 
     public FrameCreator(String s) {
@@ -35,6 +35,7 @@ public abstract class FrameCreator extends JFrame implements Runnable{
             while(!stopThread){
                 Thread.sleep(100);
             }
+            setVisible(false);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -53,6 +54,7 @@ public abstract class FrameCreator extends JFrame implements Runnable{
                         throw new NumberFormatException();
                     height = a;
                     width = b;
+
                     stopThread = true;
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Беда. Говорят, что нужно вводить только целые числа! Да ещё и в диапазоне 3...10\n" +
