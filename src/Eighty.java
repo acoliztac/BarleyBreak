@@ -16,7 +16,6 @@ public class Eighty {
         Thread tuning = new Thread(mainFrame);
         tuning.start();
         tuning.join();
-        mainFrame.setVisible(false);
 
         FieldFrame field = new FieldFrame("Восьмяшки", mainFrame.height, mainFrame.width);
 
@@ -28,6 +27,5 @@ public class Eighty {
         Thread game = new Thread(field);
         game.start();
         game.join();
-        field.setVisible(false);
     }
 }
