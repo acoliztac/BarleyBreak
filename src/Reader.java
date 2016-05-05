@@ -241,6 +241,7 @@ public class Reader extends JFrame implements Runnable{
                         String greetings = "Поздравляю, вы справились с задачей на поле " + (fieldA + 1) + " x " +
                                 + (fieldB + 1) + " за " + counter + count;
                         JOptionPane.showMessageDialog(null, greetings, "Восьмяшки", 1);
+                        stopThread = true;
                     }
                 }
             }
