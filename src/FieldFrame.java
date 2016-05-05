@@ -11,11 +11,6 @@ public class FieldFrame extends FrameCreator {
     public FieldFrame(String s, int a, int b){
         super(s);
 
-
-
-        setVisible(true);
-
-
         matrix = new String[a][b];
         result = new String[a][b];
 
