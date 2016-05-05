@@ -6,10 +6,10 @@ public class Eighty {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-//        String welcome ="Добро пожаловать в игру \"Восьмяшки\"!\n\n" +
-//                "Вам предстоит расставить все числа по возрастанию (слева-направо и сверху-вниз),\nа число \"0\" поместить в правый нижний угол.\n\n" +
-//                "Приятной игры!";
-//        JOptionPane.showMessageDialog(null, welcome, "Восьмяшки", 3);
+        String welcome ="Добро пожаловать в игру \"Восьмяшки\"!\n\n" +
+                "Вам предстоит расставить все числа по возрастанию (слева-направо и сверху-вниз),\nа число \"0\" поместить в правый нижний угол.\n\n" +
+                "Приятной игры!";
+        JOptionPane.showMessageDialog(null, welcome, "Восьмяшки", 3);
 
         Reader r = new Reader("Восьмяшки");
         r.setVisible(true);
