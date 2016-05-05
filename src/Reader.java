@@ -81,7 +81,7 @@ public class Reader extends JFrame implements Runnable{
         solutionable();
 
     }
-
+//Проверка доступности решения (работает с полем 3х3)
     private void solutionable() {
         ArrayList<Integer> list = new ArrayList<Integer>();
         for (JButton ds : buttons){
