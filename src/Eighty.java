@@ -25,8 +25,8 @@ public class Eighty {
         r.setVisible(false);
 
 //        int[] arrayR     = {0, 1, 2, 3,  4,  5,  6,  7,  8,  9, 10};
-        int[] widthArray  = {0, 0, 0, 61, 57, 55, 55, 55, 55, 55, 54};
-        int[] heightArray = {0, 0, 0, 70, 67, 64, 62, 61, 60, 59, 59};
+        int[] widthArray  = {0, 0, 0, 66, 57, 55, 55, 55, 55, 55, 54};
+        int[] heightArray = {0, 0, 0, 71, 67, 64, 62, 61, 60, 59, 59};
 
         Reader field = new Reader("Восьмяшки", r.height, r.width);
         field.setVisible(true);
