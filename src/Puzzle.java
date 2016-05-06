@@ -15,35 +15,25 @@ public class Puzzle extends FrameCreator {
     private String[][] result;
     private eHandler handler = new eHandler();
 
-    private int buttonSize = 70;
+    private int buttonSize = 66;
 
     public Puzzle(int width, int height){
         super("Восьмяшки");
         final JPanel content = new JPanel(new GridLayout(height,2,5,5));
         setSize(width * buttonSize, height * buttonSize);
-
-
+        setResizable(true);
 
         puzzle = fillMatrix(0, width, height, true);
         result = fillMatrix(1, width, height, false);
 
-        for (int i = 0; i < width * height; i++){
-            JButton jb = new JButton();
-            jb.setPreferredSize(new Dimension(48, 48));
-            jb.addActionListener(handler);
-            jButtonField.add(new JButton());
-        }
-
-        int k = 0;
         for (int i = 0; i < width; i++){
             for (int j = 0; j < height; j++){
-                jButtonField.get(k).setText(String.valueOf(puzzle[i][j]));
-                k++;
+                JButton button = new JButton(String.valueOf(puzzle[i][j]));
+                button.setPreferredSize(new Dimension(48, 48));
+                button.addActionListener(handler);
+                jButtonField.add(button);
+                content.add(button);
             }
-        }
-
-        for (JButton button : jButtonField){
-            content.add(button);
         }
 
         getContentPane().add(content);

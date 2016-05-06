@@ -18,13 +18,6 @@ public class Eighty {
         tuning.join();
 
         Puzzle field = new Puzzle(mainFrame.width, mainFrame.height);
-
-//      int[] arrayR      = {0, 1, 2, 3,  4,  5,  6,  7,  8,  9,  10};
-        int[] widthMultiplyArray  = {0, 0, 0, 66, 57, 55, 55, 55, 55, 55, 54};
-        int[] heightMultiplyArray = {0, 0, 0, 71, 67, 64, 62, 61, 60, 59, 59};
-
-        field.setSize(widthMultiplyArray[mainFrame.width] * mainFrame.width, heightMultiplyArray[mainFrame.height] * mainFrame.height);
-
         Thread game = new Thread(field);
         game.start();
         game.join();
