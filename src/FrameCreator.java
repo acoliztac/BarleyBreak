@@ -6,15 +6,15 @@ import java.util.ArrayList;
 
 public abstract class FrameCreator extends JFrame implements Runnable{
     int width, height;
-    JButton b1;
-    JTextField t1, t2;
+    JButton startButton;
+    JTextField puzzleHeight, puzzleWidth;
     eHandler handler = new eHandler();
 
-    ArrayList<JButton> buttons = new ArrayList<JButton>();
-    String[][] matrix;
+    ArrayList<JButton> jButtonField = new ArrayList<JButton>();
+    String[][] puzzle;
     String[][] result;
 
-    int counter = 0;
+    int stepCounter = 0;
 
     boolean gameOver = false;
     boolean stopThread = false;
@@ -44,11 +44,11 @@ public abstract class FrameCreator extends JFrame implements Runnable{
 
         @Override
         public void actionPerformed (ActionEvent e) {
-            if (e.getSource() == b1){
+            if (e.getSource() == startButton){
                 int a, b;
                 try {
-                    a = Integer.parseInt(t1.getText());
-                    b = Integer.parseInt(t2.getText());
+                    a = Integer.parseInt(puzzleHeight.getText());
+                    b = Integer.parseInt(puzzleWidth.getText());
                     if (b < 3 || b > 10 || a < 3 || a > 10)
                         throw new NumberFormatException();
                     height = a;
@@ -56,27 +56,27 @@ public abstract class FrameCreator extends JFrame implements Runnable{
 
                     stopThread = true;
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Беда. Говорят, что нужно вводить только целые числа! Да ещё и в диапазоне 3...10\n" +
-                            "Я приберу за тобой, а ты попробуй ещё раз!", "Ошибочка закралась", 2);
-                    t1.setText(null);
-                    t2.setText(null);
+                    JOptionPane.showMessageDialog(null, "Беда. Говорят, что нужно вводить только целые числа! Да ещё и в" +
+                            " диапазоне 3...10\nЯ приберу за тобой, а ты попробуй ещё раз!", "Ошибочка закралась", 2);
+                    puzzleHeight.setText(null);
+                    puzzleWidth.setText(null);
                 }
             }
 
-            for (JButton jb : buttons){
-                int a = matrix.length;
+            for (JButton jb : jButtonField){
+                int a = puzzle.length;
                 int b = 0;
                 if (e.getSource() == jb){
                     int x = 0;
                     int y = 0;
                     for (int i = 0; i < a; i++){
-                        String[] part = matrix[i];
+                        String[] part = puzzle[i];
                         b = part.length;
                         for (int j = 0; j < b; j++){
-                            if (matrix[i][j].equals(jb.getText())){
+                            if (puzzle[i][j].equals(jb.getText())){
                                 x = i;
                                 y = j;
-                                counter++;
+                                stepCounter++;
                                 break;
                             }
                         }
@@ -86,15 +86,15 @@ public abstract class FrameCreator extends JFrame implements Runnable{
 
                     for (int i = 0; i < 4; i++){
                         try {
-                            if (matrix[xs[i]][ys[i]].equals(" ")){
-                                String buf = matrix[x][y];
-                                matrix[x][y] = matrix[xs[i]][ys[i]];
-                                matrix[xs[i]][ys[i]] = buf;
+                            if (puzzle[xs[i]][ys[i]].equals(" ")){
+                                String buf = puzzle[x][y];
+                                puzzle[x][y] = puzzle[xs[i]][ys[i]];
+                                puzzle[xs[i]][ys[i]] = buf;
 
                                 int l = 0;
                                 for (int j = 0; j < a; j++){
                                     for (int k = 0; k < b; k++){
-                                        buttons.get(l).setText(String.valueOf(matrix[j][k]));
+                                        jButtonField.get(l).setText(String.valueOf(puzzle[j][k]));
                                         l++;
                                     }
                                 }
@@ -106,24 +106,24 @@ public abstract class FrameCreator extends JFrame implements Runnable{
                     gameOver = true;
                     int fieldA = 0;
                     int fieldB = 0;
-                    for (int i = 0; i < matrix.length; i++){
-                        String[] line = matrix[i];
+                    for (int i = 0; i < puzzle.length; i++){
+                        String[] line = puzzle[i];
                         fieldA = i;
                         for (int j = 0; j < line.length; j++){
                             fieldB = j;
-                            if (!matrix[i][j].equals(result[i][j]))
+                            if (!puzzle[i][j].equals(result[i][j]))
                                 gameOver = false;
                         }
                     }
                     if (gameOver){
                         String count;
-                        if (counter % 10 == 1)
+                        if (stepCounter % 10 == 1)
                             count = " ход";
-                        else if (counter % 10 > 1 && counter % 10 < 5)
+                        else if (stepCounter % 10 > 1 && stepCounter % 10 < 5)
                             count = " хода";
                         else count = " ходов";
                         String greetings = "Поздравляю, вы справились с задачей на поле " + (fieldA + 1) + " x " +
-                                + (fieldB + 1) + " за " + counter + count;
+                                + (fieldB + 1) + " за " + stepCounter + count;
                         JOptionPane.showMessageDialog(null, greetings, "Восьмяшки", 1);
                         stopThread = true;
                     }

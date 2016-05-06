@@ -10,8 +10,8 @@ public class MainFrame extends FrameCreator {
     public MainFrame(String s){
         super(s);
 
-        b1 = new JButton("Приступить к решению");
-        b1.setPreferredSize(new Dimension(180, 30));
+        startButton = new JButton("Приступить к решению");
+        startButton.setPreferredSize(new Dimension(180, 30));
 
         l0 = new JLabel("Размеры поля");
         l0.setPreferredSize(new Dimension(150, 30));
@@ -20,15 +20,15 @@ public class MainFrame extends FrameCreator {
         l2 = new JLabel("Ширина :");
         l2.setPreferredSize(new Dimension(70, 30));
 
-        t1 = new JTextField(5);
-        t2 = new JTextField(5);
+        puzzleHeight = new JTextField(5);
+        puzzleWidth = new JTextField(5);
 
         add(l0);
         add(l1);
-        add(t1);
+        add(puzzleHeight);
         add(l2);
-        add(t2);
-        add(b1);
-        b1.addActionListener(handler);
+        add(puzzleWidth);
+        add(startButton);
+        startButton.addActionListener(handler);
     }
 }

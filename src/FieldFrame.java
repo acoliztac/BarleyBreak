@@ -6,41 +6,41 @@ import java.util.ArrayList;
  * Created by Никита on 05.05.2016.
  */
 public class FieldFrame extends FrameCreator {
-    private JLabel l3;
+    private JLabel motivationMSG;
 
-    public FieldFrame(String s, int a, int b){
-        super(s);
+    public FieldFrame(String frameName, int width, int height){
+        super(frameName);
 
-        matrix = new String[a][b];
-        result = new String[a][b];
+        puzzle = new String[width][height];
+        result = new String[width][height];
 
-        int d = 48;
+        int buttonSide = 48;
 
-        fillingMatrix(matrix, 0, a, b, true);
-        fillingMatrix(result, 1, a, b, false);
+        fillMatrix(puzzle, 0, width, height, true);
+        fillMatrix(result, 1, width, height, false);
 
-        l3 = new JLabel("Запасись терпением и едой (;");
-        for (int i = 0; i < a * b; i++){
-            buttons.add(new JButton());
+        motivationMSG = new JLabel("Запасись терпением и едой (;");
+        for (int i = 0; i < width * height; i++){
+            jButtonField.add(new JButton());
         }
-        for (JButton jb : buttons){
+        for (JButton jb : jButtonField){
             add(jb);
-            jb.setPreferredSize(new Dimension(d, d));
+            jb.setPreferredSize(new Dimension(buttonSide, buttonSide));
             jb.addActionListener(handler);
         }
-        add(l3);
+        add(motivationMSG);
 
         int k = 0;
-        for (int i = 0; i < a; i++){
-            for (int j = 0; j < b; j++){
-                buttons.get(k).setText(String.valueOf(matrix[i][j]));
+        for (int i = 0; i < width; i++){
+            for (int j = 0; j < height; j++){
+                jButtonField.get(k).setText(String.valueOf(puzzle[i][j]));
                 k++;
             }
         }
-        solutionable();
+        solutionExists();
     }
 
-    private static void fillingMatrix(String[][] matrix, Integer k, Integer a, Integer b, boolean b1) {
+    private static void fillMatrix(String[][] matrix, Integer k, Integer a, Integer b, boolean b1) {
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
         if (!b1) {
             for (int i = 0; i < a * b; i++){
@@ -62,16 +62,15 @@ public class FieldFrame extends FrameCreator {
                 if (buf == 0)
                     matrix[i][j] = " ";
                 else matrix[i][j] = String.valueOf(buf);
-//                matrix[i][j] = String.valueOf(arrayList.get(k++));
                 if (k >= a * b)
                     k = 0;
             }
         }
     }
 
-    private void solutionable() {
+    private void solutionExists() {
         ArrayList<Integer> list = new ArrayList<Integer>();
-        for (JButton ds : buttons){
+        for (JButton ds : jButtonField){
             if (ds.getText().equals(" "))
                 continue;
             list.add(Integer.valueOf(ds.getText()));
@@ -84,10 +83,10 @@ public class FieldFrame extends FrameCreator {
                     mark++;
             }
         }
-//        findingEmpty : for (int i = 0; i < matrix.length; i++){
-//            String[] line = matrix[i];
+//        findingEmpty : for (int i = 0; i < puzzle.length; i++){
+//            String[] line = puzzle[i];
 //            for (int j = 0; j < line.length; j++){
-//                if (matrix[i][j].equals(" ")) {
+//                if (puzzle[i][j].equals(" ")) {
 //                    mark += i + 1;
 //                    break findingEmpty;
 //                }
