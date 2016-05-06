@@ -17,7 +17,7 @@ public class Eighty {
         tuning.start();
         tuning.join();
 
-        FieldFrame field = new FieldFrame("Восьмяшки", mainFrame.height, mainFrame.width);
+        Puzzle field = new Puzzle("Восьмяшки", mainFrame.height, mainFrame.width);
 
 //      int[] arrayR      = {0, 1, 2, 3,  4,  5,  6,  7,  8,  9,  10};
         int[] widthMultiplyArray  = {0, 0, 0, 66, 57, 55, 55, 55, 55, 55, 54};

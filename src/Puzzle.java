@@ -5,10 +5,10 @@ import java.util.ArrayList;
 /**
  * Created by Никита on 05.05.2016.
  */
-public class FieldFrame extends FrameCreator {
+public class Puzzle extends FrameCreator {
     private JLabel motivationMSG;
 
-    public FieldFrame(String frameName, int width, int height){
+    public Puzzle(String frameName, int width, int height){
         super(frameName);
 
         puzzle = new String[width][height];
