@@ -16,6 +16,7 @@ public class MainFrame extends FrameCreator {
 
     public MainFrame(){
         super("Восьмяшки");
+        setLayout(new FlowLayout());
 
         startButton = new JButton("Приступить к решению");
         startButton.setPreferredSize(new Dimension(180, 30));
