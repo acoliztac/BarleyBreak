@@ -1,15 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
  * Created by Никита on 05.05.2016.
  */
 public class Puzzle extends FrameCreator {
-    private JLabel motivationMSG;
+
+    private int stepCounter = 0;
+    private ArrayList<JButton> jButtonField = new ArrayList<JButton>();
+    private String[][] puzzle;
+    private String[][] result;
 
     public Puzzle(int width, int height){
         super("Восьмяшки");
+        eHandler handler = new eHandler();
 
         puzzle = new String[width][height];
         result = new String[width][height];
@@ -19,7 +26,6 @@ public class Puzzle extends FrameCreator {
         fillMatrix(puzzle, 0, width, height, true);
         fillMatrix(result, 1, width, height, false);
 
-        motivationMSG = new JLabel("Запасись терпением и едой (;");
         for (int i = 0; i < width * height; i++){
             jButtonField.add(new JButton());
         }
@@ -28,7 +34,6 @@ public class Puzzle extends FrameCreator {
             jb.setPreferredSize(new Dimension(buttonSide, buttonSide));
             jb.addActionListener(handler);
         }
-        add(motivationMSG);
 
         int k = 0;
         for (int i = 0; i < width; i++){
@@ -83,20 +88,86 @@ public class Puzzle extends FrameCreator {
                     mark++;
             }
         }
-//        findingEmpty : for (int i = 0; i < puzzle.length; i++){
-//            String[] line = puzzle[i];
-//            for (int j = 0; j < line.length; j++){
-//                if (puzzle[i][j].equals(" ")) {
-//                    mark += i + 1;
-//                    break findingEmpty;
-//                }
-//            }
-//        }
         System.out.println(mark);
 
         if (mark % 2 != 0) {
             JOptionPane.showMessageDialog(null, "Хрен соберёшь, дружище. Позже пофиксим. Сейчас перезапускай игру.",
                     "Уп-с, плохо сгенерировалось поле", 2);
+        }
+    }
+
+    public class eHandler implements ActionListener {
+        private boolean gameOver = false;
+
+        @Override
+        public void actionPerformed (ActionEvent e) {
+
+            for (JButton jb : jButtonField){
+                int a = puzzle.length;
+                int b = 0;
+                if (e.getSource() == jb){
+                    int x = 0;
+                    int y = 0;
+                    for (int i = 0; i < a; i++){
+                        String[] part = puzzle[i];
+                        b = part.length;
+                        for (int j = 0; j < b; j++){
+                            if (puzzle[i][j].equals(jb.getText())){
+                                x = i;
+                                y = j;
+                                stepCounter++;
+                                break;
+                            }
+                        }
+                    }
+                    int[] xs = {x, x, x + 1, x - 1};
+                    int[] ys = {y - 1, y + 1, y, y};
+
+                    for (int i = 0; i < 4; i++){
+                        try {
+                            if (puzzle[xs[i]][ys[i]].equals(" ")){
+                                String buf = puzzle[x][y];
+                                puzzle[x][y] = puzzle[xs[i]][ys[i]];
+                                puzzle[xs[i]][ys[i]] = buf;
+
+                                int l = 0;
+                                for (int j = 0; j < a; j++){
+                                    for (int k = 0; k < b; k++){
+                                        jButtonField.get(l).setText(String.valueOf(puzzle[j][k]));
+                                        l++;
+                                    }
+                                }
+                                break;
+                            }
+                        } catch (Exception e1) {
+                        }
+                    }
+                    gameOver = true;
+                    int fieldA = 0;
+                    int fieldB = 0;
+                    for (int i = 0; i < puzzle.length; i++){
+                        String[] line = puzzle[i];
+                        fieldA = i;
+                        for (int j = 0; j < line.length; j++){
+                            fieldB = j;
+                            if (!puzzle[i][j].equals(result[i][j]))
+                                gameOver = false;
+                        }
+                    }
+                    if (gameOver){
+                        String count;
+                        if (stepCounter % 10 == 1)
+                            count = " ход";
+                        else if (stepCounter % 10 > 1 && stepCounter % 10 < 5)
+                            count = " хода";
+                        else count = " ходов";
+                        String greetings = "Поздравляю, вы справились с задачей на поле " + (fieldA + 1) + " x " +
+                                + (fieldB + 1) + " за " + stepCounter + count;
+                        JOptionPane.showMessageDialog(null, greetings, "Восьмяшки", 1);
+                        stopThread = true;
+                    }
+                }
+            }
         }
     }
 }
