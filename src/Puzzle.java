@@ -101,54 +101,23 @@ public class Puzzle extends FrameCreator {
 
         @Override
         public void actionPerformed (ActionEvent e) {
+            int puzzleHeight = puzzle.length;
+            int puzzleWidth = puzzle[0].length;
+
 
             for (JButton jb : jButtonField){
-                int a = puzzle.length;
-                int b = 0;
                 if (e.getSource() == jb){
-                    int x = 0;
-                    int y = 0;
-                    for (int i = 0; i < a; i++){
-                        String[] part = puzzle[i];
-                        b = part.length;
-                        for (int j = 0; j < b; j++){
-                            if (puzzle[i][j].equals(jb.getText())){
-                                x = i;
-                                y = j;
-                                stepCounter++;
-                                break;
-                            }
-                        }
-                    }
-                    int[] xs = {x, x, x + 1, x - 1};
-                    int[] ys = {y - 1, y + 1, y, y};
 
-                    for (int i = 0; i < 4; i++){
-                        try {
-                            if (puzzle[xs[i]][ys[i]].equals(" ")){
-                                String buf = puzzle[x][y];
-                                puzzle[x][y] = puzzle[xs[i]][ys[i]];
-                                puzzle[xs[i]][ys[i]] = buf;
+                    int[] coordinates = getCoordinates(puzzleHeight, puzzleWidth, jb);
 
-                                int l = 0;
-                                for (int j = 0; j < a; j++){
-                                    for (int k = 0; k < b; k++){
-                                        jButtonField.get(l).setText(String.valueOf(puzzle[j][k]));
-                                        l++;
-                                    }
-                                }
-                                break;
-                            }
-                        } catch (Exception e1) {
-                        }
-                    }
+                    shuffle(puzzleHeight, puzzleWidth, coordinates);
+
                     gameOver = true;
                     int fieldA = 0;
                     int fieldB = 0;
-                    for (int i = 0; i < puzzle.length; i++){
-                        String[] line = puzzle[i];
+                    for (int i = 0; i < puzzleHeight; i++){
                         fieldA = i;
-                        for (int j = 0; j < line.length; j++){
+                        for (int j = 0; j < puzzleWidth; j++){
                             fieldB = j;
                             if (!puzzle[i][j].equals(result[i][j]))
                                 gameOver = false;
@@ -168,6 +137,48 @@ public class Puzzle extends FrameCreator {
                     }
                 }
             }
+        }
+
+        private void shuffle(int puzzleHeight, int puzzleWidth, int[] coordinates) {
+            int x = coordinates[0];
+            int y = coordinates[1];
+            int[] xs = {  x,      x,   x + 1,  x - 1};
+            int[] ys = {y - 1,  y + 1,   y,      y};
+
+            for (int i = 0; i < 4; i++){
+                try {
+                    if (puzzle[xs[i]][ys[i]].equals(" ")){
+                        String buf = puzzle[x][y];
+                        puzzle[x][y] = puzzle[xs[i]][ys[i]];
+                        puzzle[xs[i]][ys[i]] = buf;
+
+                        int l = 0;
+                        for (int j = 0; j < puzzleHeight; j++){
+                            for (int k = 0; k < puzzleWidth; k++){
+                                jButtonField.get(l).setText(String.valueOf(puzzle[j][k]));
+                                l++;
+                            }
+                        }
+                        break;
+                    }
+                } catch (Exception e1) {
+                }
+            }
+        }
+
+        private int[] getCoordinates(int puzzleHeight, int puzzleWidth, JButton jb) {
+            int[] array = new int[2];
+            for (int i = 0; i < puzzleHeight; i++){
+                for (int j = 0; j < puzzleWidth; j++){
+                    if (puzzle[i][j].equals(jb.getText())){
+                        array[0] = i;
+                        array[1] = j;
+                        stepCounter++;
+                        break;
+                    }
+                }
+            }
+            return array;
         }
     }
 }

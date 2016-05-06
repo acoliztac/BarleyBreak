@@ -12,7 +12,7 @@ public class MainFrame extends FrameCreator {
     private eHandler handler = new eHandler();
     private JTextField puzzleHeight, puzzleWidth;
 
-    int width, height;
+    public int width, height;
 
     public MainFrame(){
         super("Восьмяшки");
