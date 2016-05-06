@@ -13,39 +13,36 @@ public class Puzzle extends FrameCreator {
     private ArrayList<JButton> jButtonField = new ArrayList<JButton>();
     private String[][] puzzle;
     private String[][] result;
+    private eHandler handler = new eHandler();
+
+    private int buttonSize = 66;
 
     public Puzzle(int width, int height){
         super("Восьмяшки");
-        eHandler handler = new eHandler();
+        final JPanel content = new JPanel(new GridLayout(height,2,5,5));
+        setSize(width * buttonSize, height * buttonSize);
+        setResizable(true);
 
-        puzzle = new String[width][height];
-        result = new String[width][height];
+        puzzle = fillMatrix(0, width, height, true);
+        result = fillMatrix(1, width, height, false);
 
-        int buttonSide = 48;
-
-        fillMatrix(puzzle, 0, width, height, true);
-        fillMatrix(result, 1, width, height, false);
-
-        for (int i = 0; i < width * height; i++){
-            jButtonField.add(new JButton());
-        }
-        for (JButton jb : jButtonField){
-            add(jb);
-            jb.setPreferredSize(new Dimension(buttonSide, buttonSide));
-            jb.addActionListener(handler);
-        }
-
-        int k = 0;
         for (int i = 0; i < width; i++){
             for (int j = 0; j < height; j++){
-                jButtonField.get(k).setText(String.valueOf(puzzle[i][j]));
-                k++;
+                JButton button = new JButton(String.valueOf(puzzle[i][j]));
+                button.setPreferredSize(new Dimension(48, 48));
+                button.addActionListener(handler);
+                jButtonField.add(button);
+                content.add(button);
             }
         }
+
+        getContentPane().add(content);
+
         solutionExists();
     }
 
-    private static void fillMatrix(String[][] matrix, Integer k, Integer a, Integer b, boolean b1) {
+    private static String[][] fillMatrix(Integer firstNumber, Integer a, Integer b, boolean b1) {
+        String[][] multyArray = new String[a][b];
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
         if (!b1) {
             for (int i = 0; i < a * b; i++){
@@ -63,14 +60,16 @@ public class Puzzle extends FrameCreator {
 
         for (int i = 0; i < a; i++){
             for (int j = 0; j < b; j++){
-                int buf = arrayList.get(k++);
+                int buf = arrayList.get(firstNumber++);
                 if (buf == 0)
-                    matrix[i][j] = " ";
-                else matrix[i][j] = String.valueOf(buf);
-                if (k >= a * b)
-                    k = 0;
+                    multyArray[i][j] = " ";
+                else multyArray[i][j] = String.valueOf(buf);
+                if (firstNumber >= a * b)
+                    firstNumber = 0;
             }
         }
+
+        return multyArray;
     }
 
     private void solutionExists() {

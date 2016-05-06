@@ -10,7 +10,6 @@ public abstract class FrameCreator extends JFrame implements Runnable{
 
     public FrameCreator(String s) {
         super(s);
-        setLayout(new FlowLayout());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
