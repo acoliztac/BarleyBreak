@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Puzzle extends FrameCreator {
     private JLabel motivationMSG;
 
-    public Puzzle(String frameName, int width, int height){
-        super(frameName);
+    public Puzzle(int width, int height){
+        super("Восьмяшки");
 
         puzzle = new String[width][height];
         result = new String[width][height];

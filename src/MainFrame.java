@@ -7,8 +7,8 @@ import java.awt.*;
 public class MainFrame extends FrameCreator {
     private JLabel l0, l1, l2;
 
-    public MainFrame(String s){
-        super(s);
+    public MainFrame(){
+        super("Восьмяшки");
 
         startButton = new JButton("Приступить к решению");
         startButton.setPreferredSize(new Dimension(180, 30));

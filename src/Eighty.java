@@ -11,13 +11,13 @@ public class Eighty {
                 "поместить в правый нижний угол.\n\nПриятной игры!";
         JOptionPane.showMessageDialog(null, welcome, "Восьмяшки", 3);
 
-        MainFrame mainFrame = new MainFrame("Восьмяшки");
+        MainFrame mainFrame = new MainFrame();
         mainFrame.setSize(200, 190);
         Thread tuning = new Thread(mainFrame);
         tuning.start();
         tuning.join();
 
-        Puzzle field = new Puzzle("Восьмяшки", mainFrame.width, mainFrame.height);
+        Puzzle field = new Puzzle(mainFrame.width, mainFrame.height);
 
 //      int[] arrayR      = {0, 1, 2, 3,  4,  5,  6,  7,  8,  9,  10};
         int[] widthMultiplyArray  = {0, 0, 0, 66, 57, 55, 55, 55, 55, 55, 54};
