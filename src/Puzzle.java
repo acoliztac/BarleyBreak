@@ -13,7 +13,8 @@ public class Puzzle extends FrameCreator {
     private ArrayList<JButton> jButtonField = new ArrayList<JButton>();
     private String[][] puzzle;
     private String[][] result;
-    private eHandler handler = new eHandler();
+    private Handler handler = new Handler();
+    public static final String EMPTY_STRING = " ";
 
     private int buttonSize = 66;
 
@@ -41,41 +42,43 @@ public class Puzzle extends FrameCreator {
         solutionExists();
     }
 
-    private static String[][] fillMatrix(Integer firstNumber, Integer a, Integer b, boolean b1) {
-        String[][] multyArray = new String[a][b];
+    private static String[][] fillMatrix(Integer firstNumber, Integer width, Integer height, boolean mess) {
+        String[][] multiArray = new String[width][height];
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
-        if (!b1) {
-            for (int i = 0; i < a * b; i++){
+        if (!mess) {
+            for (int i = 0; i < width * height; i++){
                 arrayList.add(i);
             }
 
         } else {
-            while (arrayList.size() < a * b){
-                int i = (int) (Math.random()*(a * b));
+            while (arrayList.size() < width * height){
+                int i = (int) (Math.random()*(width * height));
                 if (arrayList.contains(i))
                     continue;
                 arrayList.add(i);
             }
         }
 
-        for (int i = 0; i < a; i++){
-            for (int j = 0; j < b; j++){
+        for (int i = 0; i < width; i++){
+            for (int j = 0; j < height; j++){
                 int buf = arrayList.get(firstNumber++);
-                if (buf == 0)
-                    multyArray[i][j] = " ";
-                else multyArray[i][j] = String.valueOf(buf);
-                if (firstNumber >= a * b)
+                if (buf == 0) {
+                    multiArray[i][j] = EMPTY_STRING;
+                } else {
+                    multiArray[i][j] = String.valueOf(buf);
+                }
+                if (firstNumber >= width * height)
                     firstNumber = 0;
             }
         }
 
-        return multyArray;
+        return multiArray;
     }
 
     private void solutionExists() {
         ArrayList<Integer> list = new ArrayList<Integer>();
         for (JButton ds : jButtonField){
-            if (ds.getText().equals(" "))
+            if (ds.getText().equals(EMPTY_STRING))
                 continue;
             list.add(Integer.valueOf(ds.getText()));
         }
@@ -95,7 +98,7 @@ public class Puzzle extends FrameCreator {
         }
     }
 
-    public class eHandler implements ActionListener {
+    public class Handler implements ActionListener {
         private boolean gameOver = false;
 
         @Override
@@ -146,7 +149,7 @@ public class Puzzle extends FrameCreator {
 
             for (int i = 0; i < 4; i++){
                 try {
-                    if (puzzle[xs[i]][ys[i]].equals(" ")){
+                    if (puzzle[xs[i]][ys[i]].equals(EMPTY_STRING)){
                         String buf = puzzle[x][y];
                         puzzle[x][y] = puzzle[xs[i]][ys[i]];
                         puzzle[xs[i]][ys[i]] = buf;

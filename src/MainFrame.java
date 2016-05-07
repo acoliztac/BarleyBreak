@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 public class MainFrame extends FrameCreator {
     private JLabel labelSize, labelHeight, labelWidth;
     private JButton startButton;
-    private eHandler handler = new eHandler();
+    private Handler handler = new Handler();
     private JTextField puzzleHeight, puzzleWidth;
 
     public int width, height;
@@ -40,7 +40,7 @@ public class MainFrame extends FrameCreator {
         startButton.addActionListener(handler);
     }
 
-    public class eHandler implements ActionListener {
+    public class Handler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -49,12 +49,17 @@ public class MainFrame extends FrameCreator {
                     height = Integer.parseInt(puzzleHeight.getText());
                     width = Integer.parseInt(puzzleWidth.getText());
                     if (width < 3 || width > 10 || height < 3 || height > 10)
-                        throw new NumberFormatException();
+                        throw new IllegalArgumentException();
 
                     stopThread = true;
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Беда. Говорят, что нужно вводить только целые числа! Да ещё и в" +
-                            " диапазоне 3...10\nЯ приберу за тобой, а ты попробуй ещё раз!", "Ошибочка закралась", 2);
+                    JOptionPane.showMessageDialog(null, "Беда. Говорят, что нужно вводить только целые числа!\n" +
+                            "Я приберу за тобой, а ты попробуй ещё раз!", "Ошибочка закралась", 2);
+                    puzzleHeight.setText(null);
+                    puzzleWidth.setText(null);
+                } catch (IllegalArgumentException ex){
+                    JOptionPane.showMessageDialog(null, "Поле должно быть от 3 до 10 ячеек!\n" +
+                            "Я приберу за тобой, а ты попробуй ещё раз!", "Ошибочка закралась", 2);
                     puzzleHeight.setText(null);
                     puzzleWidth.setText(null);
                 }

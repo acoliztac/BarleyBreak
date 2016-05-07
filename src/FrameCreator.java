@@ -8,8 +8,8 @@ public abstract class FrameCreator extends JFrame implements Runnable{
 
     boolean stopThread = false;
 
-    public FrameCreator(String s) {
-        super(s);
+    public FrameCreator(String name) {
+        super(name);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
