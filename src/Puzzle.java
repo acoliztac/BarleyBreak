@@ -24,7 +24,6 @@ public class Puzzle extends FrameCreator {
         super("Восьмяшки");
         final JPanel content = new JPanel(new GridLayout(height,2,5,5));
         setSize(width * buttonSize, height * buttonSize);
-        setResizable(true);
 
         puzzle = fillMatrix(0, width, height, true, false);
         result = fillMatrix(1, width, height, false, false);
@@ -110,7 +109,6 @@ public class Puzzle extends FrameCreator {
 
     private boolean solutionExists() {
         boolean alternate;
-        System.out.println(alternate);
         ArrayList<Integer> list = new ArrayList<Integer>();
         for (JButton ds : jButtonField){
             if (ds.getText().equals(EMPTY_STRING))
