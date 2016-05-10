@@ -46,7 +46,7 @@ public class MainFrame extends FrameCreator {
                 try {
                     height = Integer.parseInt(puzzleSideSize.getText());
                     width = height;
-                    if (width < 3 || width > 10)
+                    if (width < 3 || width > 4)
                         throw new IllegalArgumentException();
 
                     stopThread = true;
@@ -55,7 +55,7 @@ public class MainFrame extends FrameCreator {
                             "Я приберу за тобой, а ты попробуй ещё раз!", "Ошибочка закралась", 2);
                     puzzleSideSize.setText(null);
                 } catch (IllegalArgumentException ex){
-                    JOptionPane.showMessageDialog(null, "Поле должно быть от 3 до 10 ячеек!\n" +
+                    JOptionPane.showMessageDialog(null, "Размер поля должен быть 3 или 4 ячейки!\n" +
                             "Я приберу за тобой, а ты попробуй ещё раз!", "Ошибочка закралась", 2);
                     puzzleSideSize.setText(null);
                 }

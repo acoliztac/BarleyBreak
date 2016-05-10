@@ -17,10 +17,11 @@ public class Puzzle extends FrameCreator {
     private Handler handler = new Handler();
     public static final String EMPTY_STRING = " ";
     public boolean alternateSolution = false;
+    private int zeroLine = 0;
 
     private int buttonSize = 66;
 
-    public Puzzle(int width, int height){
+    public Puzzle(int width, int height) {
         super("Восьмяшки");
         final JPanel content = new JPanel(new GridLayout(height,2,5,5));
         setSize(width * buttonSize, height * buttonSize);
@@ -42,7 +43,15 @@ public class Puzzle extends FrameCreator {
         getContentPane().add(content);
         setVisible(true);
 
-        alternateSolution = solutionExists();
+        for (int i = 0; i < height; i++){
+            for (int j = 0; j < width; j++){
+                if (puzzle[i][j].equals(EMPTY_STRING)) {
+                    zeroLine = i;
+                }
+            }
+        }
+
+        alternateSolution = solutionExists(zeroLine, width);
     }
 
     private static String[][] fillMatrix(Integer countNumber, Integer width, Integer height, boolean mess, boolean alternateSolution) {
@@ -107,7 +116,7 @@ public class Puzzle extends FrameCreator {
         return countNumber;
     }
 
-    private boolean solutionExists() {
+    private boolean solutionExists(int zeroLine, int puzzleSize) {
         boolean alternate;
         ArrayList<Integer> list = new ArrayList<Integer>();
         for (JButton ds : jButtonField){
@@ -123,8 +132,10 @@ public class Puzzle extends FrameCreator {
                     mark++;
             }
         }
-        System.out.println(mark);
 
+        if (puzzleSize == 4){
+            mark += zeroLine + 1;
+        }
         if (mark % 2 != 0) {
             alternate = true;
             JOptionPane.showMessageDialog(null, "Альтернативное решение. Нечётные строки слева-направо, чётные - " +
@@ -173,11 +184,15 @@ public class Puzzle extends FrameCreator {
                     }
                     if (gameOver){
                         String count;
-                        if (stepCounter % 10 == 1)
+                        if (stepCounter >= 111 && stepCounter <= 120){
+                            count = " ходов";
+                        } else if (stepCounter % 10 == 1) {
                             count = " ход";
-                        else if (stepCounter % 10 > 1 && stepCounter % 10 < 5)
+                        } else if (stepCounter % 10 > 1 && stepCounter % 10 < 5) {
                             count = " хода";
-                        else count = " ходов";
+                        } else {
+                            count = " ходов";
+                        }
                         String greetings = "Поздравляю, вы справились с задачей на поле " + (fieldA + 1) + " x " +
                                 + (fieldB + 1) + " за " + stepCounter + count;
                         JOptionPane.showMessageDialog(null, greetings, "Восьмяшки", 1);
