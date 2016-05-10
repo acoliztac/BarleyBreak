@@ -49,7 +49,7 @@ public class MainFrame extends FrameCreator {
                     if (width < 3 || width > 4)
                         throw new IllegalArgumentException();
 
-                    stopThread = true;
+                    isInterrupted = true;
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Беда. Говорят, что нужно вводить только целые числа!\n" +
                             "Я приберу за тобой, а ты попробуй ещё раз!", "Ошибочка закралась", 2);

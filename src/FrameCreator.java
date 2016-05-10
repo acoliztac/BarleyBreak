@@ -1,12 +1,8 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public abstract class FrameCreator extends JFrame implements Runnable{
 
-    volatile boolean stopThread = false;
+    volatile boolean isInterrupted = false;
 
     public FrameCreator(String name) {
         super(name);
@@ -18,7 +14,7 @@ public abstract class FrameCreator extends JFrame implements Runnable{
     @Override
     public void run() {
         try {
-            while(!stopThread){
+            while(!isInterrupted){
                 Thread.sleep(100);
             }
             setVisible(false);
