@@ -12,7 +12,6 @@ public class Eighty {
         JOptionPane.showMessageDialog(null, welcomeMessage, "Восьмяшки", 3);
 
         MainFrame mainFrame = new MainFrame();
-        mainFrame.setSize(215, 150);
         Thread tuning = new Thread(mainFrame);
         tuning.start();
         tuning.join();
