@@ -41,6 +41,7 @@ public class Puzzle extends FrameCreator {
         }
 
         getContentPane().add(content);
+        setVisible(true);
 
         alternateSolution = solutionExists();
     }

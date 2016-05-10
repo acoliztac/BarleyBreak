@@ -38,6 +38,8 @@ public class MainFrame extends FrameCreator {
         add(puzzleWidth);
         add(startButton);
         startButton.addActionListener(handler);
+
+        setVisible(true);
     }
 
     public class Handler implements ActionListener {

@@ -12,7 +12,6 @@ public abstract class FrameCreator extends JFrame implements Runnable{
         super(name);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
         setResizable(false);
     }
 
