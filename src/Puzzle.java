@@ -30,8 +30,8 @@ public class Puzzle extends FrameCreator {
         result = fillMatrix(1, width, height, false, false);
         alternateResult = fillMatrix(1, width, height, false, true);
 
-        for (int i = 0; i < width; i++){
-            for (int j = 0; j < height; j++){
+        for (int i = 0; i < height; i++){
+            for (int j = 0; j < width; j++){
                 JButton button = new JButton(String.valueOf(puzzle[i][j]));
                 button.setPreferredSize(new Dimension(48, 48));
                 button.addActionListener(handler);
@@ -47,16 +47,16 @@ public class Puzzle extends FrameCreator {
     }
 
     private static String[][] fillMatrix(Integer countNumber, Integer width, Integer height, boolean mess, boolean alternateSolution) {
-        String[][] multiArray = new String[width][height];
+        String[][] multiArray = new String[height][width];
         ArrayList<Integer> bufferArray = new ArrayList<Integer>();
         if (!mess) {
-            for (int i = 0; i < width * height; i++){
+            for (int i = 0; i < height * width; i++){
                 bufferArray.add(i);
             }
 
         } else {
-            while (bufferArray.size() < width * height){
-                int i = (int) (Math.random()*(width * height));
+            while (bufferArray.size() < height * width){
+                int i = (int) (Math.random()*(height * width));
                 if (bufferArray.contains(i))
                     continue;
                 bufferArray.add(i);
@@ -64,15 +64,15 @@ public class Puzzle extends FrameCreator {
         }
 
         if (!alternateSolution) {
-            for (int i = 0; i < width; i++) {
-                countNumber = generateSolutionLine(countNumber, width, height, multiArray, bufferArray, i);
+            for (int i = 0; i < height; i++) {
+                countNumber = generateSolutionLine(countNumber, height, width, multiArray, bufferArray, i);
             }
         } else{
-            for (int i = 0; i < width; i++){
+            for (int i = 0; i < height; i++){
                 if (i % 2 == 1) {
-                    countNumber = generateAlternateSolutionLine(countNumber, width, height, multiArray, bufferArray, i);
+                    countNumber = generateAlternateSolutionLine(countNumber, height, width, multiArray, bufferArray, i);
                 } else {
-                    countNumber = generateSolutionLine(countNumber, width, height, multiArray, bufferArray, i);
+                    countNumber = generateSolutionLine(countNumber, height, width, multiArray, bufferArray, i);
                 }
             }
         }
