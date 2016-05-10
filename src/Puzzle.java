@@ -17,21 +17,21 @@ public class Puzzle extends FrameCreator {
     private Handler handler = new Handler();
     public static final String EMPTY_STRING = " ";
     public boolean alternateSolution = false;
+    private int zeroLine = 0;
 
     private int buttonSize = 66;
 
-    public Puzzle(int width, int height){
+    public Puzzle(int width, int height) {
         super("Восьмяшки");
         final JPanel content = new JPanel(new GridLayout(height,2,5,5));
         setSize(width * buttonSize, height * buttonSize);
-        setResizable(true);
 
         puzzle = fillMatrix(0, width, height, true, false);
         result = fillMatrix(1, width, height, false, false);
         alternateResult = fillMatrix(1, width, height, false, true);
 
-        for (int i = 0; i < width; i++){
-            for (int j = 0; j < height; j++){
+        for (int i = 0; i < height; i++){
+            for (int j = 0; j < width; j++){
                 JButton button = new JButton(String.valueOf(puzzle[i][j]));
                 button.setPreferredSize(new Dimension(48, 48));
                 button.addActionListener(handler);
@@ -43,20 +43,28 @@ public class Puzzle extends FrameCreator {
         getContentPane().add(content);
         setVisible(true);
 
-        alternateSolution = solutionExists();
+        for (int i = 0; i < height; i++){
+            for (int j = 0; j < width; j++){
+                if (puzzle[i][j].equals(EMPTY_STRING)) {
+                    zeroLine = i;
+                }
+            }
+        }
+
+        alternateSolution = solutionExists(zeroLine, width);
     }
 
     private static String[][] fillMatrix(Integer countNumber, Integer width, Integer height, boolean mess, boolean alternateSolution) {
-        String[][] multiArray = new String[width][height];
+        String[][] multiArray = new String[height][width];
         ArrayList<Integer> bufferArray = new ArrayList<Integer>();
         if (!mess) {
-            for (int i = 0; i < width * height; i++){
+            for (int i = 0; i < height * width; i++){
                 bufferArray.add(i);
             }
 
         } else {
-            while (bufferArray.size() < width * height){
-                int i = (int) (Math.random()*(width * height));
+            while (bufferArray.size() < height * width){
+                int i = (int) (Math.random()*(height * width));
                 if (bufferArray.contains(i))
                     continue;
                 bufferArray.add(i);
@@ -64,15 +72,15 @@ public class Puzzle extends FrameCreator {
         }
 
         if (!alternateSolution) {
-            for (int i = 0; i < width; i++) {
-                countNumber = generateSolutionLine(countNumber, width, height, multiArray, bufferArray, i);
+            for (int i = 0; i < height; i++) {
+                countNumber = generateSolutionLine(countNumber, height, width, multiArray, bufferArray, i);
             }
         } else{
-            for (int i = 0; i < width; i++){
+            for (int i = 0; i < height; i++){
                 if (i % 2 == 1) {
-                    countNumber = generateAlternateSolutionLine(countNumber, width, height, multiArray, bufferArray, i);
+                    countNumber = generateAlternateSolutionLine(countNumber, height, width, multiArray, bufferArray, i);
                 } else {
-                    countNumber = generateSolutionLine(countNumber, width, height, multiArray, bufferArray, i);
+                    countNumber = generateSolutionLine(countNumber, height, width, multiArray, bufferArray, i);
                 }
             }
         }
@@ -108,8 +116,8 @@ public class Puzzle extends FrameCreator {
         return countNumber;
     }
 
-    private boolean solutionExists() {
-        boolean alternate = false;
+    private boolean solutionExists(int zeroLine, int puzzleSize) {
+        boolean alternate;
         ArrayList<Integer> list = new ArrayList<Integer>();
         for (JButton ds : jButtonField){
             if (ds.getText().equals(EMPTY_STRING))
@@ -124,8 +132,10 @@ public class Puzzle extends FrameCreator {
                     mark++;
             }
         }
-        System.out.println(mark);
 
+        if (puzzleSize == 4){
+            mark += zeroLine + 1;
+        }
         if (mark % 2 != 0) {
             alternate = true;
             JOptionPane.showMessageDialog(null, "Альтернативное решение. Нечётные строки слева-направо, чётные - " +
@@ -174,11 +184,15 @@ public class Puzzle extends FrameCreator {
                     }
                     if (gameOver){
                         String count;
-                        if (stepCounter % 10 == 1)
+                        if (stepCounter >= 111 && stepCounter <= 120){
+                            count = " ходов";
+                        } else if (stepCounter % 10 == 1) {
                             count = " ход";
-                        else if (stepCounter % 10 > 1 && stepCounter % 10 < 5)
+                        } else if (stepCounter % 10 > 1 && stepCounter % 10 < 5) {
                             count = " хода";
-                        else count = " ходов";
+                        } else {
+                            count = " ходов";
+                        }
                         String greetings = "Поздравляю, вы справились с задачей на поле " + (fieldA + 1) + " x " +
                                 + (fieldB + 1) + " за " + stepCounter + count;
                         JOptionPane.showMessageDialog(null, greetings, "Восьмяшки", 1);

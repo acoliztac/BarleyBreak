@@ -7,35 +7,31 @@ import java.awt.event.ActionListener;
  * Created by Никита on 05.05.2016.
  */
 public class MainFrame extends FrameCreator {
-    private JLabel labelSize, labelHeight, labelWidth;
+    private JLabel labelMessageSize, labelSideSize;
     private JButton startButton;
     private Handler handler = new Handler();
-    private JTextField puzzleHeight, puzzleWidth;
+    private JTextField puzzleSideSize;
 
     public int width, height;
 
     public MainFrame(){
         super("Восьмяшки");
+        setSize(215, 150);
         setLayout(new FlowLayout());
 
         startButton = new JButton("Приступить к решению");
         startButton.setPreferredSize(new Dimension(180, 30));
 
-        labelSize = new JLabel("Размеры поля");
-        labelSize.setPreferredSize(new Dimension(150, 30));
-        labelHeight = new JLabel("Высота :");
-        labelHeight.setPreferredSize(new Dimension(70, 30));
-        labelWidth = new JLabel("Ширина :");
-        labelWidth.setPreferredSize(new Dimension(70, 30));
+        labelMessageSize = new JLabel("Размеры поля");
+        labelMessageSize.setPreferredSize(new Dimension(150, 30));
+        labelSideSize = new JLabel("Сторона :");
+        labelSideSize.setPreferredSize(new Dimension(70, 30));
 
-        puzzleHeight = new JTextField(5);
-        puzzleWidth = new JTextField(5);
+        puzzleSideSize = new JTextField(5);
 
-        add(labelSize);
-        add(labelHeight);
-        add(puzzleHeight);
-        add(labelWidth);
-        add(puzzleWidth);
+        add(labelMessageSize);
+        add(labelSideSize);
+        add(puzzleSideSize);
         add(startButton);
         startButton.addActionListener(handler);
 
@@ -48,22 +44,20 @@ public class MainFrame extends FrameCreator {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == startButton) {
                 try {
-                    height = Integer.parseInt(puzzleHeight.getText());
-                    width = Integer.parseInt(puzzleWidth.getText());
-                    if (width < 3 || width > 10 || height < 3 || height > 10)
+                    height = Integer.parseInt(puzzleSideSize.getText());
+                    width = height;
+                    if (width < 3 || width > 4)
                         throw new IllegalArgumentException();
 
                     stopThread = true;
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Беда. Говорят, что нужно вводить только целые числа!\n" +
                             "Я приберу за тобой, а ты попробуй ещё раз!", "Ошибочка закралась", 2);
-                    puzzleHeight.setText(null);
-                    puzzleWidth.setText(null);
+                    puzzleSideSize.setText(null);
                 } catch (IllegalArgumentException ex){
-                    JOptionPane.showMessageDialog(null, "Поле должно быть от 3 до 10 ячеек!\n" +
+                    JOptionPane.showMessageDialog(null, "Размер поля должен быть 3 или 4 ячейки!\n" +
                             "Я приберу за тобой, а ты попробуй ещё раз!", "Ошибочка закралась", 2);
-                    puzzleHeight.setText(null);
-                    puzzleWidth.setText(null);
+                    puzzleSideSize.setText(null);
                 }
             }
         }

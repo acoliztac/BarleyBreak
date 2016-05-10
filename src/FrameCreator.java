@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public abstract class FrameCreator extends JFrame implements Runnable{
 
-    boolean stopThread = false;
+    volatile boolean stopThread = false;
 
     public FrameCreator(String name) {
         super(name);
