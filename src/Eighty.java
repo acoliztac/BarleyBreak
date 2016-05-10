@@ -12,13 +12,15 @@ public class Eighty {
         JOptionPane.showMessageDialog(null, welcomeMessage, "Восьмяшки", 3);
 
         MainFrame mainFrame = new MainFrame();
-        Thread tuning = new Thread(mainFrame);
+        Thread tuning = new Thread(mainFrame, "MainFrame");
         tuning.start();
         tuning.join();
 
-        Puzzle field = new Puzzle(mainFrame.width, mainFrame.height);
-        Thread game = new Thread(field);
+        Puzzle puzzleField = new Puzzle(mainFrame.width, mainFrame.height);
+        Thread game = new Thread(puzzleField, "PuzzleField");
         game.start();
         game.join();
+
+        System.exit(0);
     }
 }

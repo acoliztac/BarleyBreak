@@ -19,12 +19,17 @@ public abstract class FrameCreator extends JFrame implements Runnable{
     public void run() {
         try {
             while(!isInterrupted){
+//                logRunning();
                 Thread.sleep(100);
             }
             setVisible(false);
+//            System.out.println("Setting visible");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    protected void logRunning(){
+        System.out.println(Thread.currentThread().getName() + " " + isInterrupted);
     }
 
 
