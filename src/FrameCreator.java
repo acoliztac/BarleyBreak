@@ -2,13 +2,17 @@ import javax.swing.*;
 
 public abstract class FrameCreator extends JFrame implements Runnable{
 
-    volatile boolean isInterrupted = false;
+    private boolean isInterrupted = false;
 
     public FrameCreator(String name) {
         super(name);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+    }
+
+    public void setInterrupted(boolean isInterrupted) {
+        this.isInterrupted = isInterrupted;
     }
 
     @Override

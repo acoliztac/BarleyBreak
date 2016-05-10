@@ -196,7 +196,7 @@ public class Puzzle extends FrameCreator {
                         String greetings = "Поздравляю, вы справились с задачей на поле " + (fieldA + 1) + " x " +
                                 + (fieldB + 1) + " за " + stepCounter + count;
                         JOptionPane.showMessageDialog(null, greetings, "Восьмяшки", 1);
-                        isInterrupted = true;
+                        setInterrupted(true);
                     }
                 }
             }
