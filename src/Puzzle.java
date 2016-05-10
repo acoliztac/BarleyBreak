@@ -13,8 +13,10 @@ public class Puzzle extends FrameCreator {
     private ArrayList<JButton> jButtonField = new ArrayList<JButton>();
     private String[][] puzzle;
     private String[][] result;
+    private String[][] alternateResult;
     private Handler handler = new Handler();
     public static final String EMPTY_STRING = " ";
+    public boolean alternateSolution = false;
 
     private int buttonSize = 66;
 
@@ -24,8 +26,9 @@ public class Puzzle extends FrameCreator {
         setSize(width * buttonSize, height * buttonSize);
         setResizable(true);
 
-        puzzle = fillMatrix(0, width, height, true);
-        result = fillMatrix(1, width, height, false);
+        puzzle = fillMatrix(0, width, height, true, false);
+        result = fillMatrix(1, width, height, false, false);
+        alternateResult = fillMatrix(1, width, height, false, true);
 
         for (int i = 0; i < width; i++){
             for (int j = 0; j < height; j++){
@@ -39,43 +42,73 @@ public class Puzzle extends FrameCreator {
 
         getContentPane().add(content);
 
-        solutionExists();
+        alternateSolution = solutionExists();
     }
 
-    private static String[][] fillMatrix(Integer firstNumber, Integer width, Integer height, boolean mess) {
+    private static String[][] fillMatrix(Integer countNumber, Integer width, Integer height, boolean mess, boolean alternateSolution) {
         String[][] multiArray = new String[width][height];
-        ArrayList<Integer> arrayList = new ArrayList<Integer>();
+        ArrayList<Integer> bufferArray = new ArrayList<Integer>();
         if (!mess) {
             for (int i = 0; i < width * height; i++){
-                arrayList.add(i);
+                bufferArray.add(i);
             }
 
         } else {
-            while (arrayList.size() < width * height){
+            while (bufferArray.size() < width * height){
                 int i = (int) (Math.random()*(width * height));
-                if (arrayList.contains(i))
+                if (bufferArray.contains(i))
                     continue;
-                arrayList.add(i);
+                bufferArray.add(i);
             }
         }
 
-        for (int i = 0; i < width; i++){
-            for (int j = 0; j < height; j++){
-                int buf = arrayList.get(firstNumber++);
-                if (buf == 0) {
-                    multiArray[i][j] = EMPTY_STRING;
+        if (!alternateSolution) {
+            for (int i = 0; i < width; i++) {
+                countNumber = generateSolutionLine(countNumber, width, height, multiArray, bufferArray, i);
+            }
+        } else{
+            for (int i = 0; i < width; i++){
+                if (i % 2 == 1) {
+                    countNumber = generateAlternateSolutionLine(countNumber, width, height, multiArray, bufferArray, i);
                 } else {
-                    multiArray[i][j] = String.valueOf(buf);
+                    countNumber = generateSolutionLine(countNumber, width, height, multiArray, bufferArray, i);
                 }
-                if (firstNumber >= width * height)
-                    firstNumber = 0;
             }
         }
 
         return multiArray;
     }
 
-    private void solutionExists() {
+    private static Integer generateAlternateSolutionLine(Integer countNumber, Integer width, Integer height, String[][] multiArray, ArrayList<Integer> bufferArray, int i) {
+        for (int j = height - 1; j >= 0; j--) {
+            int buf = bufferArray.get(countNumber++);
+            if (buf == 0) {
+                multiArray[i][j] = EMPTY_STRING;
+            } else {
+                multiArray[i][j] = String.valueOf(buf);
+            }
+            if (countNumber >= width * height)
+                countNumber = 0;
+        }
+        return countNumber;
+    }
+
+    private static Integer generateSolutionLine(Integer countNumber, Integer width, Integer height, String[][] multiArray, ArrayList<Integer> bufferArray, int i) {
+        for (int j = 0; j < height; j++) {
+            int buf = bufferArray.get(countNumber++);
+            if (buf == 0) {
+                multiArray[i][j] = EMPTY_STRING;
+            } else {
+                multiArray[i][j] = String.valueOf(buf);
+            }
+            if (countNumber >= width * height)
+                countNumber = 0;
+        }
+        return countNumber;
+    }
+
+    private boolean solutionExists() {
+        boolean alternate = false;
         ArrayList<Integer> list = new ArrayList<Integer>();
         for (JButton ds : jButtonField){
             if (ds.getText().equals(EMPTY_STRING))
@@ -93,9 +126,15 @@ public class Puzzle extends FrameCreator {
         System.out.println(mark);
 
         if (mark % 2 != 0) {
-            JOptionPane.showMessageDialog(null, "Хрен соберёшь, дружище. Позже пофиксим. Сейчас перезапускай игру.",
-                    "Уп-с, плохо сгенерировалось поле", 2);
+            alternate = true;
+            JOptionPane.showMessageDialog(null, "Альтернативное решение. Нечётные строки слева-направо, чётные - " +
+                            "справа-налево", "Альтернативная задача", 2);
+        } else{
+            alternate = false;
+            JOptionPane.showMessageDialog(null, "Классическое решение. Числа по возрастанию слева-направо и сверху-" +
+                    "вниз", "Классическая задача", 2);
         }
+        return alternate;
     }
 
     public class Handler implements ActionListener {
@@ -105,6 +144,13 @@ public class Puzzle extends FrameCreator {
         public void actionPerformed (ActionEvent e) {
             int puzzleHeight = puzzle.length;
             int puzzleWidth = puzzle[0].length;
+            String[][] solvedPuzzle;
+
+            if (alternateSolution){
+                solvedPuzzle = alternateResult;
+            } else {
+                solvedPuzzle = result;
+            }
 
 
             for (JButton jb : jButtonField){
@@ -121,7 +167,7 @@ public class Puzzle extends FrameCreator {
                         fieldA = i;
                         for (int j = 0; j < puzzleWidth; j++){
                             fieldB = j;
-                            if (!puzzle[i][j].equals(result[i][j]))
+                            if (!puzzle[i][j].equals(solvedPuzzle[i][j]))
                                 gameOver = false;
                         }
                     }
