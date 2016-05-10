@@ -127,8 +127,12 @@ public class Puzzle extends FrameCreator {
 
         if (mark % 2 != 0) {
             alternate = true;
-            JOptionPane.showMessageDialog(null, "Решение данной задачи - змейка. Первый ряд слева-направо, второй -" +
-                    " наоборот и так далее", 2);
+            JOptionPane.showMessageDialog(null, "Альтернативное решение. Нечётные строки слева-направо, чётные - " +
+                            "справа-налево", "Альтернативная задача", 2);
+        } else{
+            alternate = false;
+            JOptionPane.showMessageDialog(null, "Классическое решение. Числа по возрастанию слева-направо и сверху-" +
+                    "вниз", "Классическая задача", 2);
         }
         return alternate;
     }
