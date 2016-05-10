@@ -109,7 +109,8 @@ public class Puzzle extends FrameCreator {
     }
 
     private boolean solutionExists() {
-        boolean alternate = false;
+        boolean alternate;
+        System.out.println(alternate);
         ArrayList<Integer> list = new ArrayList<Integer>();
         for (JButton ds : jButtonField){
             if (ds.getText().equals(EMPTY_STRING))
